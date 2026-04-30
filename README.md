@@ -27,55 +27,89 @@ The MotorPH Payroll System is a Java desktop application for managing core HR an
 
 ## Folder Structure
 ```
-MO-IT110_Group19-GUI/
+MotorPH_OOP/
+├── data/
+│   ├── leaves.csv
+│   ├── MotorPH Attendance Record
+│   └── MotorPH Employee Record.csv
+├── lib/
+├── nbproject/
+│   ├── private/
+│   ├── build-impl.xml
+│   ├── genfiles.properties
+│   ├── project.properties
+│   └── project.xml
 ├── src/
-│   ├── RBAC/                        # Role-Based Access Control
-│   │   ├── Permission.java          # Enum of all system permissions
-│   │   ├── Role.java                # Role model with permission set
-│   │   └── RBACSetup.java           # Factory for all predefined roles
-│   ├── Service/                     # Business logic layer
-│   │   └── LeaveService.java
-│   ├── gui/                         # All Swing UI components
+│   ├── asset/
+│   ├── gui/
+│   │   ├── AttendanceFormPanel.java
+│   │   ├── AttendancePanel.java
+│   │   ├── DashboardPanel.java
+│   │   ├── EmployeeDetailsPanel.java
+│   │   ├── EmployeeFormPanel.java
+│   │   ├── EmployeeLeavesPanel.java
+│   │   ├── EmployeeManagementLauncher.java
+│   │   ├── EmployeeManagementPanel.java
+│   │   ├── LeaveFormPanel.java
 │   │   ├── LoginDialog.java
 │   │   ├── MainDashboardFrame.java
-│   │   ├── DashboardPanel.java
-│   │   ├── EmployeeManagementPanel.java
-│   │   ├── AttendancePanel.java
-│   │   ├── AttendanceFormPanel.java
-│   │   ├── EmployeeLeavesPanel.java
-│   │   ├── LeaveFormPanel.java
-│   │   ├── LeaveManagementFrame.java
-│   │   ├── HrLeaveRequestsDialog.java
+│   │   ├── MainDashboardLauncher.java
+│   │   ├── PayrollDetailsPanel.java
 │   │   ├── PayrollPanel.java
-│   │   ├── PayslipSplitDialog.java
-│   │   ├── AddRecordDialog.java
-│   │   ├── UpdateDialog.java
-│   │   ├── ViewRecordDialog.java
-│   │   ├── AddLeaveDialog.java
-│   │   ├── LeaveRequestDialog.java
-│   │   ├── EmployeeLeaveTableModel.java
-│   │   ├── LoginService.java
-│   │   ├── PasswordManager.java
 │   │   ├── ResetCredentials.java
-│   │   ├── EmployeeManagementLauncher.java
-│   │   └── MainDashboardLauncher.java
-│   ├── model/                       # Domain entities
-│   │   └── AccountingDepartment.java
-│   └── asset/
-│       └── LoginBackground.png      # Login screen background
-├── data/
-│   ├── MotorPH Employee Record.csv  # Employee master data + roles
-│   ├── MotorPH Attendance Record    # Daily time-in/time-out logs
-│   └── leaves.csv                   # Leave requests and statuses
-├── nbproject/                       # NetBeans project configuration
-├── build.xml                        # Ant build configuration
-└── manifest.mf
+│   ├── model/
+│   │   ├── AccountingDepartment.java
+│   │   ├── AttendanceRecord.java
+│   │   ├── Employee.java
+│   │   ├── EmployeeFactory.java
+│   │   ├── ExecutiveDepartment.java
+│   │   ├── HRDepartment.java
+│   │   ├── ITDepartment.java
+│   │   ├── Leave.java
+│   │   ├── LeaveRequest.java
+│   │   ├── Payable.java
+│   │   ├── PayrollDepartment.java
+│   │   ├── PersonRecord.java
+│   │   ├── ProbationaryEmployee.java
+│   │   ├── RegularEmployee.java
+│   │   ├── SalesDepartment.java
+│   │   └── TimeTrackable.java
+│   ├── RBAC/
+│   │   ├── Permission.java
+│   │   ├── RBACSetup.java
+│   │   └── Role.java
+│   ├── repository/
+│   │   ├── AttendanceRepository.java
+│   │   ├── BulkAccountGenerator.java
+│   │   ├── CsvAttendanceRepository.java
+│   │   ├── CsvEmployeeRepository.java
+│   │   ├── CsvEmployeeTimeRecord.java
+│   │   ├── CsvLeaveRepository.java
+│   │   ├── EmployeeRepository.java
+│   │   └── LeaveRepository.java
+│   └── Service/
+│       ├── AttendanceService.java
+│       ├── AuthenticationService.java
+│       ├── AuthorizationService.java
+│       ├── EmployeeRequest.java
+│       ├── EmployeeService.java
+│       ├── EmployeeValidator.java
+│       ├── LeaveRequestValidator.java
+│       ├── LeaveService.java
+│       ├── PayrollComputationService.java
+│       ├── SessionManager.java
+│       └── auth/                    # Service authentication utilities
+│           ├── AccountService.java
+│           └── PasswordManager.java
+├── build.xml
+├── manifest.mf
+└── README.md
 ```
 
 ## System Features Description:
 
 ### Login
-**Files:** LoginDialog.java, LoginService.java, PasswordManager.java, ResetCredentials.java
+**Files:** LoginDialog.java, AuthenticationService.java, AccountService.java, PasswordManager.java, ResetCredentials.java
 
 Presents a full-screen login form rendered over a custom background image. The dialog scales responsively to screen resolution. On submit, AuthenticationService validates credentials against the employee CSV. A successful login stores the authenticated Employee in SessionManager and launches the main dashboard. A "Forgot Password?" link exposes a credential reset workflow.
 
@@ -133,7 +167,6 @@ The system implements a custom RBAC layer in the RBAC package. Each employee rec
 | AddRecordDialog           | JDialog             | Form dialog for creating a new employee record |
 | UpdateDialog              | JDialog             | Form dialog for editing an existing employee record |
 | ViewRecordDialog          | JDialog             | Read-only employee detail view               |
-| PasswordManager           | Utility             | Password hashing and credential storage      |
 | ResetCredentials          | Dialog              | Credential reset workflow for IT role and forgotten passwords |
 | EmployeeLeaveTableModel   | AbstractTableModel  | Custom table model for the leave management table |
 
@@ -145,6 +178,8 @@ The system implements a custom RBAC layer in the RBAC package. Each employee rec
 | SessionManager           | Static singleton storing the currently logged-in Employee |
 | LeaveService             | Validates and delegates leave CRUD to LeaveRepository  |
 | AttendanceService        | Time-in/time-out logic and attendance record retrieval |
+| AccountService (`service.auth`) | Handles credential storage and account lookup by employee ID |
+| PasswordManager (`service.auth`) | Hashing, verification, and credential reset support |
 | EmployeeLeaveUiService   | Interface abstracting leave UI operations              |
 | InMemoryEmployeeLeaveUiService | In-memory implementation of EmployeeLeaveUiService |
 
