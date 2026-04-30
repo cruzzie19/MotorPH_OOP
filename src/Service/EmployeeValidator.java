@@ -4,8 +4,21 @@
  */
 
 /**
+ * Utility validator for employee creation/update requests.
+ * Enforces required fields, numeric boundaries, and business constraints
+ * before an employee can be persisted.
+ *
+ * <p>Validation scope:</p>
+ * <ul>
+ *   <li>Required identity and profile fields (ID, name, contact, government IDs)</li>
+ *   <li>Required employment metadata (status, position, supervisor, role)</li>
+ *   <li>Required birth date</li>
+ *   <li>Non-negative compensation values</li>
+ *   <li>Basic salary upper bound of 500,000.00</li>
+ * </ul>
  *
  * @author Rhynne Gracelle
+ * @see service.EmployeeRequest
  */
 
 package service;
@@ -19,6 +32,13 @@ public final class EmployeeValidator {
     private EmployeeValidator() {
     }
 
+    /**
+     * Validates an employee request.
+     *
+     * @param request employee input payload to validate
+     * @throws IllegalArgumentException if any required field is missing
+     *                                  or numeric constraints are violated
+     */
     public static void validate(EmployeeRequest request) {
         if (request == null) {
             throw new IllegalArgumentException("Employee request cannot be null.");

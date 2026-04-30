@@ -4,6 +4,15 @@
  */
 
 /**
+ * CSV-backed implementation of AttendanceRepository.
+ * Stores attendance rows in a local CSV file and provides basic CRUD operations.
+ *
+ * <p>Behavior highlights:</p>
+ * <ul>
+ *   <li>Auto-creates the attendance file with header if missing</li>
+ *   <li>Supports multiple fallback search paths for the attendance file</li>
+ *   <li>Reads all rows into memory for filter/update/delete workflows</li>
+ * </ul>
  *
  * @author Rhynne Gracelle
  */
@@ -23,6 +32,9 @@ public class CsvAttendanceRepository implements AttendanceRepository {
     private static final String HEADER = "Employee #,Last Name,First Name,Date,Log In,Log Out";
     private final Path filePath;
 
+    /**
+     * Creates repository instance and ensures backing CSV exists.
+     */
     public CsvAttendanceRepository() {
         this.filePath = resolveAttendancePath();
         ensureFileExists();
@@ -71,6 +83,11 @@ public class CsvAttendanceRepository implements AttendanceRepository {
     }
 
     @Override
+    /**
+     * Reads all attendance records from CSV.
+     *
+     * @return attendance list
+     */
     public List<AttendanceRecord> findAll() {
         List<AttendanceRecord> records = new ArrayList<>();
 
@@ -109,6 +126,12 @@ public class CsvAttendanceRepository implements AttendanceRepository {
     }
 
     @Override
+    /**
+     * Finds attendance rows for a specific employee.
+     *
+     * @param employeeId employee ID filter
+     * @return matching records
+     */
     public List<AttendanceRecord> findByEmployeeId(String employeeId) {
         List<AttendanceRecord> result = new ArrayList<>();
 
@@ -122,6 +145,13 @@ public class CsvAttendanceRepository implements AttendanceRepository {
     }
 
     @Override
+    /**
+     * Finds a single attendance row by employee ID and date.
+     *
+     * @param employeeId employee ID key
+     * @param date date key (MM/dd/yyyy)
+     * @return matching row, or null
+     */
     public AttendanceRecord findByEmployeeIdAndDate(String employeeId, String date) {
         for (AttendanceRecord record : findAll()) {
             if (record.getEmployeeId().equalsIgnoreCase(employeeId == null ? "" : employeeId.trim())
@@ -133,6 +163,11 @@ public class CsvAttendanceRepository implements AttendanceRepository {
     }
 
     @Override
+    /**
+     * Adds a new attendance row.
+     *
+     * @param record row to insert
+     */
     public void add(AttendanceRecord record) {
         List<AttendanceRecord> all = findAll();
         all.add(record);
@@ -140,6 +175,12 @@ public class CsvAttendanceRepository implements AttendanceRepository {
     }
 
     @Override
+    /**
+     * Updates an existing attendance row matched by employee ID and date.
+     *
+     * @param updatedRecord row with updated values
+     * @throws IllegalArgumentException if target row does not exist
+     */
     public void update(AttendanceRecord updatedRecord) {
         List<AttendanceRecord> all = findAll();
 
@@ -158,6 +199,12 @@ public class CsvAttendanceRepository implements AttendanceRepository {
     }
     
     @Override
+    /**
+     * Deletes an attendance row by employee ID and date.
+     *
+     * @param employeeId employee ID key
+     * @param date date key (MM/dd/yyyy)
+     */
     public void delete(String employeeId, String date) {
         List<AttendanceRecord> all = findAll();
 

@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Leianna Cruz
+ */
+
 package service;
 
 import model.AttendanceRecord;

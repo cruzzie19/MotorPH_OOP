@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Leianna Cruz
+ */
+
 package service.auth;
 
 import model.Employee;

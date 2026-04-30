@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 /**
  * Represents a regular (permanent) employee.
+ * @author Leianna Cruz
  */
 public class RegularEmployee extends Employee {
 

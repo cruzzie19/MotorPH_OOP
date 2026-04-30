@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Leianna Cruz
+ */
+
 package model;
 
 import java.math.BigDecimal;

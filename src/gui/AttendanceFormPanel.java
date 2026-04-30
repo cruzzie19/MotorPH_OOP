@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Leianna Cruz
+ */
+
 package gui;
 
 import javax.swing.*;

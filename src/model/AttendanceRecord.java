@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Leianna Cruz
+ */
+
 package model;
 
 public class AttendanceRecord implements TimeTrackable {

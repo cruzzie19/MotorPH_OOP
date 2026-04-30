@@ -4,8 +4,20 @@
  */
 
 /**
+ * Utility validator for leave requests.
+ * Ensures leave data is complete, date formats are valid, and date rules are met.
+ *
+ * <p>Validation rules:</p>
+ * <ul>
+ *   <li>Required: employee ID, leave type, start date, end date</li>
+ *   <li>Date format: ISO-8601 (`yyyy-MM-dd`)</li>
+ *   <li>End date must not be earlier than start date</li>
+ *   <li>Start date must not be earlier than today</li>
+ *   <li>Notes length must not exceed 250 characters</li>
+ * </ul>
  *
  * @author Rhynne Gracelle
+ * @see model.Leave
  */
 
 package service;
@@ -20,6 +32,13 @@ public final class LeaveRequestValidator {
     private LeaveRequestValidator() {
     }
 
+    /**
+     * Validates a leave request object.
+     *
+     * @param leave leave request payload
+     * @throws IllegalArgumentException if required fields are missing
+     *                                  or date/business constraints are violated
+     */
     public static void validate(Leave leave) {
         if (leave == null) {
             throw new IllegalArgumentException("Leave request cannot be null.");

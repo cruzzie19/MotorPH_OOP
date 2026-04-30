@@ -6,6 +6,7 @@ import java.time.LocalDate;
 /**
  * Represents a probationary employee.
  * Business rule: probationary employees do NOT receive allowances.
+ * @author Leianna Cruz
  */
 public class ProbationaryEmployee extends Employee {
 
